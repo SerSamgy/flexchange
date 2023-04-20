@@ -7,6 +7,8 @@ services:
       dockerfile: ./deploy/Dockerfile
     image: flexchange:${FLEXCHANGE_VERSION:-latest}
     restart: always
+    env_file:
+    - .env
     environment:
       FLEXCHANGE_HOST: 0.0.0.0
       FLEXCHANGE_DB_FILE: /db_data/db.sqlite3
