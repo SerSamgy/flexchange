@@ -4,19 +4,28 @@
 	"name": "FlexChange Dev",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"dockerComposeFile": [
-		"../deploy/docker-compose.yml",
-		"../deploy/docker-compose.dev.yml",
+		"../docker-compose.yml",
+		"../docker-compose.dev.yml",
 		"docker-compose.extend.yml"
 	],
 	"service": "api",
 	"workspaceFolder": "/workspace",
-	"shutdownAction": "stopCompose"
+	"shutdownAction": "stopCompose",
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"upgradePackages": true
+		}
+	},
+	"overrideFeatureInstallOrder": [
+		"ghcr.io/devcontainers/features/common-utils:2",
+		"ghcr.io/devcontainers/features/git:1"
+	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+	"postCreateCommand": "python -m flexchange"
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.

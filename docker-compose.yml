@@ -4,7 +4,6 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./deploy/Dockerfile
     image: flexchange:${FLEXCHANGE_VERSION:-latest}
     restart: always
     env_file:
@@ -14,8 +13,6 @@ services:
       FLEXCHANGE_DB_FILE: /db_data/db.sqlite3
     volumes:
     - flexchange-db-data:/db_data/
-
-
 
 volumes:
   flexchange-db-data:

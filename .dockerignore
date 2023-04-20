@@ -1,6 +1,7 @@
 ### Python template
 
-deploy/
+Dockerfile
+docker-compose*
 .idea/
 .vscode/
 .git/
