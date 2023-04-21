@@ -34,6 +34,7 @@ async def _engine() -> AsyncGenerator[AsyncEngine, None]:
     :yield: new engine.
     """
     from sqlalchemy.event import listen  # noqa: WPS433
+
     from flexchange.db.meta import meta  # noqa: WPS433
     from flexchange.db.models import load_all_models  # noqa: WPS433
     from flexchange.db.utils import set_sqlite_pragma  # noqa: WPS433

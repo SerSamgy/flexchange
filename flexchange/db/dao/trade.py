@@ -1,5 +1,5 @@
 from datetime import date
-from typing import List
+from typing import Any, List
 
 from fastapi import Depends
 from sqlalchemy import select
@@ -15,27 +15,13 @@ class Trade:
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
 
-    async def create_dummy_model(self, name: str) -> None:
+    async def create(self, **kwargs: Any) -> None:
         """
-        Add single dummy to session.
+        Add single trade to session.
 
-        :param name: name of a dummy.
+        :param kwargs: new trade's fields.
         """
-        self.session.add(TradeModel(name=name))
-
-    async def get_all_dummies(self, limit: int, offset: int) -> List[TradeModel]:
-        """
-        Get all dummy models with limit/offset pagination.
-
-        :param limit: limit of dummies.
-        :param offset: offset of dummies.
-        :return: stream of dummies.
-        """
-        raw_dummies = await self.session.execute(
-            select(TradeModel).limit(limit).offset(offset),
-        )
-
-        return list(raw_dummies.scalars().fetchall())
+        self.session.add(TradeModel(**kwargs))
 
     async def filter(
         self,
