@@ -1,11 +1,18 @@
 from typing import Awaitable, Callable
 
 from fastapi import FastAPI
+from sqlalchemy.event import listen
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from flexchange.db.meta import meta
 from flexchange.db.models import load_all_models
 from flexchange.settings import settings
+
+
+def __set_sqlite_pragma(dbapi_connection, connection_record):  # type: ignore[no-untyped-def]
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
 
 
 def _setup_db(app: FastAPI) -> None:  # pragma: no cover
@@ -19,6 +26,7 @@ def _setup_db(app: FastAPI) -> None:  # pragma: no cover
     :param app: fastAPI application.
     """
     engine = create_async_engine(str(settings.db_url), echo=settings.db_echo)
+    listen(engine.sync_engine, "connect", __set_sqlite_pragma)
     session_factory = async_sessionmaker(
         engine,
         expire_on_commit=False,

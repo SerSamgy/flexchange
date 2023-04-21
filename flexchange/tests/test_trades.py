@@ -6,7 +6,7 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from flexchange.db.dao.dummy_dao import DummyDAO
+from flexchange.db.daos import DummyDAO
 
 
 @pytest.mark.anyio
@@ -27,7 +27,7 @@ async def test_creation(
     assert response.status_code == status.HTTP_200_OK
     dao = DummyDAO(dbsession)
     instances = await dao.filter(name=test_name)
-    assert instances[0].name == test_name
+    assert instances[0].price == test_name
 
 
 @pytest.mark.anyio
