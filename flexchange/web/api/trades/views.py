@@ -1,20 +1,19 @@
 from datetime import date
-from typing import List
 
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
 from flexchange.db.dao.trade import Trade as TradeDAO
 from flexchange.db.models.trade import Trade as TradeModel
-from flexchange.web.api.trades.schema import DummyModelDTO, DummyModelInputDTO
+from flexchange.web.api.trades.schema import TradeModelDTO
 
 router = APIRouter()
 
 
-@router.get("/", response_model=List[DummyModelDTO])
+@router.get("/", response_model=list[TradeModelDTO])
 async def get_trades(
-    trader_id: str | None,
-    delivery_day: date | None,
+    trader_id: str | None = None,
+    delivery_day: date | None = None,
     trade_dao: TradeDAO = Depends(),
 ) -> list[TradeModel]:
     """
@@ -30,13 +29,13 @@ async def get_trades(
 
 @router.post("/")
 async def create_trade(
-    new_dummy_object: DummyModelInputDTO,
-    dummy_dao: TradeDAO = Depends(),
+    new_trade_object: TradeModelDTO,
+    trade_dao: TradeDAO = Depends(),
 ) -> None:
     """
-    Creates dummy model in the database.
+    Creates trade model in the database.
 
-    :param new_dummy_object: new dummy model item.
-    :param dummy_dao: DAO for dummy models.
+    :param new_trade_object: new trade model item.
+    :param trade_dao: DAO for trade models.
     """
-    await dummy_dao.create_dummy_model(**new_dummy_object.dict())
+    await trade_dao.create(**new_trade_object.dict())
