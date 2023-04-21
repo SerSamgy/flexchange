@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any, List
+from typing import Any
 
 from fastapi import Depends
 from sqlalchemy import select
@@ -25,14 +25,15 @@ class Trade:
 
     async def filter(
         self,
-        trader_id: str | None,
-        delivery_day: date | None,
-    ) -> List[TradeModel]:
+        trader_id: str | None = None,
+        delivery_day: date | None = None,
+    ) -> list[TradeModel]:
         """
         Get specific trade models.
 
-        :param name: name of dummy instance.
-        :return: dummy models.
+        :param trader_id: ID of trader, responsible for trade.
+        :param delivery_day: Day on which the traded energy has to be delivered.
+        :return: (filtered) trade models.
         """
         query = select(TradeModel)
         if trader_id:

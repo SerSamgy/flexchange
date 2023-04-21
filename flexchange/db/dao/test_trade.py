@@ -1,5 +1,4 @@
 from datetime import date, datetime
-from typing import Coroutine
 
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -13,9 +12,10 @@ from flexchange.db.models.trader import Trader as TraderModel
 async def test_create(
     dbsession: AsyncSession,
     trade_dao: TradeDAO,
-    existing_trader: Coroutine[None, None, None],
 ) -> None:
     """Tests trade instance creation."""
+    dbsession.add(TraderModel(id="MirkoT", type="human"))
+    await dbsession.commit()
     delivery_day = date(2023, 4, 20)
     execution_time = datetime(2023, 4, 20, 10, 5, 11, 123)
     create_fields = {
@@ -41,12 +41,61 @@ async def test_create(
     assert saved_obj.execution_time == create_fields["execution_time"]
 
 
+@pytest.mark.anyio
+async def test_filter(
+    dbsession: AsyncSession,
+    trade_dao: TradeDAO,
+) -> None:
+    """Tests fetch of trade objects filtered by given fields."""
+    trader_1 = TraderModel(id="ReiAya", type="human")
+    trader_2 = TraderModel(id="AsukaSor", type="human")
+    dbsession.add(trader_2)
+    dbsession.add(trader_1)
+    await dbsession.commit()
+
+    delivery_day_1 = date(2023, 4, 20)
+    trade_1 = TradeModel(
+        id="trade_1",
+        trader_id=trader_1.id,
+        price=50,
+        quantity=10,
+        direction="buy",
+        delivery_day=delivery_day_1,
+        delivery_hour=12,
+        execution_time=datetime(2023, 4, 20, 10, 5, 11, 123),
+    )
+    dbsession.add(trade_1)
+
+    delivery_day_2 = date(2023, 4, 21)
+    trade_2 = TradeModel(
+        id="trade_2",
+        trader_id=trader_2.id,
+        price=50,
+        quantity=10,
+        direction="buy",
+        delivery_day=delivery_day_2,
+        delivery_hour=12,
+        execution_time=datetime(2023, 4, 21, 10, 5, 11, 123),
+    )
+    dbsession.add(trade_2)
+
+    # no filter
+    trades = await trade_dao.filter()
+    assert len(trades) == 2
+    assert trades[0].id == trade_1.id
+    assert trades[1].id == trade_2.id
+
+    # filter by trader_id
+    trades = await trade_dao.filter(trader_id=trader_2.id)
+    assert len(trades) == 1
+    assert trades[0].id == trade_2.id
+
+    # filter by delivery_day
+    trades = await trade_dao.filter(delivery_day=trade_1.delivery_day)
+    assert len(trades) == 1
+    assert trades[0].id == trade_1.id
+
+
 @pytest.fixture
 def trade_dao(dbsession: AsyncSession):
     return TradeDAO(dbsession)
-
-
-@pytest.fixture
-async def existing_trader(dbsession: AsyncSession) -> Coroutine[None, None, None]:
-    dbsession.add(TraderModel(id="MirkoT", type="human"))
-    await dbsession.commit()
