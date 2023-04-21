@@ -1,0 +1,15 @@
+from sqlalchemy.orm import mapped_column
+from sqlalchemy.sql.sqltypes import Boolean, Integer, String
+
+from flexchange.db.base import Base
+
+
+class User(Base):
+    """Represents user that could work in system."""
+
+    __tablename__ = "user"
+
+    id = mapped_column(Integer, primary_key=True, autoincrement=True)
+    nickname = mapped_column(String(length=64), index=True, nullable=False)
+    hashed_password = mapped_column(String, nullable=False)
+    is_superuser = mapped_column(Boolean, default=False, nullable=False)

@@ -3,6 +3,7 @@ from importlib import metadata
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 
+from flexchange.settings import settings
 from flexchange.web.api.router import api_router
 from flexchange.web.lifetime import register_shutdown_event, register_startup_event
 
@@ -18,9 +19,9 @@ def get_app() -> FastAPI:
     app = FastAPI(
         title="flexchange",
         version=metadata.version("flexchange"),
-        docs_url="/api/docs",
-        redoc_url="/api/redoc",
-        openapi_url="/api/openapi.json",
+        docs_url=f"{settings.api_str}/docs",
+        redoc_url=f"{settings.api_str}/redoc",
+        openapi_url=f"{settings.api_str}/openapi.json",
         default_response_class=UJSONResponse,
     )
 
@@ -29,6 +30,6 @@ def get_app() -> FastAPI:
     register_shutdown_event(app)
 
     # Main router for the API.
-    app.include_router(router=api_router, prefix="/api")
+    app.include_router(router=api_router, prefix=settings.api_str)
 
     return app

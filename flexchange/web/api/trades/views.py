@@ -5,9 +5,10 @@ from fastapi.param_functions import Depends
 
 from flexchange.db.dao.trade import Trade as TradeDAO
 from flexchange.db.models.trade import Trade as TradeModel
+from flexchange.web.api.dependencies import get_current_superuser
 from flexchange.web.api.trades.schema import TradeModelDTO
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(get_current_superuser)])
 
 
 @router.get("/", response_model=list[TradeModelDTO])
