@@ -23,7 +23,7 @@ class Trade(Base):
     price = mapped_column(Integer, nullable=False)  # noqa: WPS432
     quantity = mapped_column(Integer, nullable=False)  # noqa: WPS432
     direction = mapped_column(Enum(Directions), nullable=False)  # noqa: WPS432
-    delivery_day = mapped_column(Date, nullable=False)  # noqa: WPS432
+    delivery_day = mapped_column(Date, nullable=False, index=True)  # noqa: WPS432
     delivery_hour = mapped_column(
         Integer,
         CheckConstraint("delivery_hour >= 0 AND delivery_hour <= 23"),
