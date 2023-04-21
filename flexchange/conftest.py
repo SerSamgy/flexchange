@@ -33,14 +33,17 @@ async def _engine() -> AsyncGenerator[AsyncEngine, None]:
 
     :yield: new engine.
     """
+    from sqlalchemy.event import listen  # noqa: WPS433
     from flexchange.db.meta import meta  # noqa: WPS433
     from flexchange.db.models import load_all_models  # noqa: WPS433
+    from flexchange.db.utils import set_sqlite_pragma  # noqa: WPS433
 
     load_all_models()
 
     await create_database()
 
     engine = create_async_engine(str(settings.db_url))
+    listen(engine.sync_engine, "connect", set_sqlite_pragma)
     async with engine.begin() as conn:
         await conn.run_sync(meta.create_all)
 
