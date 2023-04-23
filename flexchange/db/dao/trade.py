@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from flexchange.db.dependencies import get_db_session
-from flexchange.db.models.trade import Trade as TradeModel
+from flexchange.db.models import Trade as TradeModel
 
 
 class Trade:

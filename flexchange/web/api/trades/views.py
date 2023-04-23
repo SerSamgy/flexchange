@@ -3,8 +3,8 @@ from datetime import date
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
-from flexchange.db.dao.trade import Trade as TradeDAO
-from flexchange.db.models.trade import Trade as TradeModel
+from flexchange.db.dao import Trade as TradeDAO
+from flexchange.db.models import Trade as TradeModel
 from flexchange.web.api.dependencies import get_current_superuser
 from flexchange.web.api.trades.schema import TradeModelDTO
 

@@ -2,6 +2,12 @@
 import pkgutil
 from pathlib import Path
 
+from flexchange.db.models.trade import Trade
+from flexchange.db.models.trader import Trader
+from flexchange.db.models.user import User
+
+__all__ = ["Trade", "Trader", "User"]
+
 
 def load_all_models() -> None:
     """Load all models from this folder."""

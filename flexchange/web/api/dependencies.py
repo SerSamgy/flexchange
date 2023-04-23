@@ -3,9 +3,9 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from flexchange.db.dao.user import User as UserDAO
+from flexchange.db.dao import User as UserDAO
 from flexchange.db.dependencies import get_db_session
-from flexchange.db.models.user import User as UserModel
+from flexchange.db.models import User as UserModel
 from flexchange.security import ALGORITHM
 from flexchange.settings import settings
 

@@ -1,8 +1,8 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from flexchange.db.dao.user import User as UserDAO
-from flexchange.db.models.user import User as UserModel
+from flexchange.db.dao import User as UserDAO
+from flexchange.db.models import User as UserModel
 
 create_user_fields = {
     "full_name": "Gendo Ikari",

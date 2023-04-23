@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
-from flexchange.db.dao.user import User as UserDAO
+from flexchange.db.dao import User as UserDAO
 from flexchange.security import create_access_token
 from flexchange.settings import settings
 from flexchange.web.api.login.schema import Token

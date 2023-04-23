@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from flexchange.db.dependencies import get_db_session
-from flexchange.db.models.user import User as UserModel
+from flexchange.db.models import User as UserModel
 from flexchange.security import get_password_hash, verify_password
 
 

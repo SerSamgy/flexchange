@@ -3,9 +3,9 @@ from datetime import date, datetime
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from flexchange.db.dao.trade import Trade as TradeDAO
-from flexchange.db.models.trade import Trade as TradeModel
-from flexchange.db.models.trader import Trader as TraderModel
+from flexchange.db.dao import Trade as TradeDAO
+from flexchange.db.models import Trade as TradeModel
+from flexchange.db.models import Trader as TraderModel
 
 
 @pytest.mark.anyio

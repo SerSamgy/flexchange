@@ -6,9 +6,9 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from flexchange.db.dao.trade import Trade as TradeDAO
-from flexchange.db.dao.user import User as UserDAO
-from flexchange.db.models.trader import Trader as TraderModel
+from flexchange.db.dao import Trade as TradeDAO
+from flexchange.db.dao import User as UserDAO
+from flexchange.db.models import Trader as TraderModel
 from flexchange.web.api.dependencies import get_current_superuser
 
 trader_1_id = "ReiAya"
