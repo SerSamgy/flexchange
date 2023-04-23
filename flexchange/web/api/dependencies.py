@@ -28,7 +28,10 @@ async def get_current_user(
         )
     user = await UserDAO(session).get(user_id=token_data)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
 
     return user
 
@@ -38,7 +41,7 @@ async def get_current_superuser(
 ) -> UserModel:
     if not current_user.is_superuser:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="The user doesn't have enough privileges",
         )
     return current_user

@@ -1,14 +1,8 @@
-import enum
-
 from sqlalchemy.orm import mapped_column
-from sqlalchemy.sql.sqltypes import Enum, String
+from sqlalchemy.schema import ForeignKey
+from sqlalchemy.sql.sqltypes import String
 
 from flexchange.db.base import Base
-
-
-class TraderTypes(str, enum.Enum):
-    bot = "bot"
-    human = "human"
 
 
 class Trader(Base):
@@ -17,4 +11,7 @@ class Trader(Base):
     __tablename__ = "trader"
 
     id = mapped_column(String(length=64), primary_key=True)
-    type = mapped_column(Enum(TraderTypes), nullable=False)  # noqa: WPS432
+    user_id = mapped_column(ForeignKey("user.id"))
+    # if trader is bot we could add another foreign key to Bot table
+    # and add constraint that checks if either one of foreign keys
+    # references to respective table, but not both

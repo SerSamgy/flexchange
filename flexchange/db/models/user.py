@@ -10,6 +10,7 @@ class User(Base):
     __tablename__ = "user"
 
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
-    nickname = mapped_column(String(length=64), index=True, nullable=False)
+    full_name = mapped_column(String(length=256), nullable=False)
+    email = mapped_column(String(length=255), index=True, nullable=False)
     hashed_password = mapped_column(String, nullable=False)
     is_superuser = mapped_column(Boolean, default=False, nullable=False)

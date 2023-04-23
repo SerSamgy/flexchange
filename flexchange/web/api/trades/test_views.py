@@ -7,7 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from flexchange.db.dao.trade import Trade as TradeDAO
+from flexchange.db.dao.user import User as UserDAO
 from flexchange.db.models.trader import Trader as TraderModel
+from flexchange.web.api.dependencies import get_current_superuser
 
 trader_1_id = "ReiAya"
 trade_1_id = "trade_1"
@@ -43,12 +45,12 @@ trade_2_json = trade_2 | {
 
 @pytest.mark.anyio
 async def test_create_trade(
-    fastapi_app: FastAPI,
+    fastapi_app_overridden: FastAPI,
     client: AsyncClient,
     trade_dao,
 ) -> None:
     """Tests trade instance creation."""
-    url = fastapi_app.url_path_for("create_trade")
+    url = fastapi_app_overridden.url_path_for("create_trade")
     response = await client.post(url, json=trade_1_json)
 
     assert response.status_code == status.HTTP_200_OK
@@ -67,7 +69,7 @@ async def test_create_trade(
     ids=["no filter", "filter by trader_id", "filter by delivery_day"],
 )
 async def test_get_trades(
-    fastapi_app: FastAPI,
+    fastapi_app_overridden: FastAPI,
     client: AsyncClient,
     trade_dao: TradeDAO,
     query,
@@ -77,12 +79,30 @@ async def test_get_trades(
     await trade_dao.create(**trade_1)
     await trade_dao.create(**trade_2)
 
-    url = fastapi_app.url_path_for("get_trades")
+    url = fastapi_app_overridden.url_path_for("get_trades")
     response = await client.get(url, params=query)
     trades = response.json()
 
     assert response.status_code == status.HTTP_200_OK
     assert trades == output
+
+
+@pytest.fixture
+def fastapi_app_overridden(fastapi_app, superuser):
+    fastapi_app.dependency_overrides[get_current_superuser] = lambda: superuser
+    yield fastapi_app
+    fastapi_app.dependency_overrides = {}
+
+
+@pytest.fixture
+async def superuser(dbsession: AsyncSession):
+    user_dao = UserDAO(dbsession)
+    return await user_dao.create(
+        full_name="Gendo Ikari",
+        email="ikari@nerv.jp",
+        password="gendowned",
+        is_superuser=True,
+    )
 
 
 @pytest.fixture
@@ -92,6 +112,6 @@ def trade_dao(dbsession: AsyncSession):
 
 @pytest.fixture(autouse=True)
 async def db_state(dbsession):
-    dbsession.add(TraderModel(id=trader_1_id, type="human"))
-    dbsession.add(TraderModel(id="AsukaSor", type="human"))
+    dbsession.add(TraderModel(id=trader_1_id))
+    dbsession.add(TraderModel(id="AsukaSor"))
     await dbsession.commit()

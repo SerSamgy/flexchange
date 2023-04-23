@@ -17,27 +17,28 @@ class User:
 
     async def create(self, **obj_fields: Any) -> UserModel:
         db_obj = UserModel(
-            nickname=obj_fields["nickname"],
+            full_name=obj_fields["full_name"],
+            email=obj_fields["email"],
             hashed_password=get_password_hash(obj_fields["password"]),
             is_superuser=obj_fields["is_superuser"],
         )
         self.session.add(db_obj)
-        self.session.commit()
-        self.session.refresh(db_obj)
+        await self.session.commit()
+        await self.session.refresh(db_obj)
 
         return db_obj
 
     async def get(self, *, user_id: int) -> UserModel | None:
         return await self.session.get(UserModel, user_id)
 
-    async def get_by_nickname(self, *, nickname: str) -> UserModel | None:
+    async def get_by_email(self, *, email: str) -> UserModel | None:
         rows = await self.session.execute(
-            select(UserModel).where(UserModel.nickname == nickname),
+            select(UserModel).where(UserModel.email == email),
         )
         return rows.scalars().first()
 
-    async def authenticate(self, *, nickname: str, password: str) -> UserModel | None:
-        user = await self.get_by_nickname(nickname=nickname)
+    async def authenticate(self, *, email: str, password: str) -> UserModel | None:
+        user = await self.get_by_email(email=email)
         if not user:
             return None
         if not verify_password(password, user.hashed_password):

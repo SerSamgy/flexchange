@@ -21,7 +21,7 @@ async def login_access_token(
     OAuth2 compatible token login, get an access token for future requests
     """
     user = await user_dao.authenticate(
-        nickname=form_data.username,
+        email=form_data.username,
         password=form_data.password,
     )
     if not user:

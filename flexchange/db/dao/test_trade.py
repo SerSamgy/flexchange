@@ -14,7 +14,7 @@ async def test_create(
     trade_dao: TradeDAO,
 ) -> None:
     """Tests trade instance creation."""
-    dbsession.add(TraderModel(id="MirkoT", type="human"))
+    dbsession.add(TraderModel(id="MirkoT"))
     await dbsession.commit()
     delivery_day = date(2023, 4, 20)
     execution_time = datetime(2023, 4, 20, 10, 5, 11, 123)
@@ -47,8 +47,8 @@ async def test_filter(
     trade_dao: TradeDAO,
 ) -> None:
     """Tests fetch of trade objects filtered by given fields."""
-    trader_1 = TraderModel(id="ReiAya", type="human")
-    trader_2 = TraderModel(id="AsukaSor", type="human")
+    trader_1 = TraderModel(id="ReiAya")
+    trader_2 = TraderModel(id="AsukaSor")
     dbsession.add(trader_2)
     dbsession.add(trader_1)
     await dbsession.commit()
