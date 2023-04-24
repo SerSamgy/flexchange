@@ -2,9 +2,9 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
+from flexchange.db.models import Directions
 from flexchange.db.models import Trade as TradeModel
 from flexchange.db.models import Trader as TraderModel
-from flexchange.db.models.trade import Directions
 from flexchange.db.reports import PnLReport
 
 today_delivery = datetime.now(timezone.utc).date()

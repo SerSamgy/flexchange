@@ -2,11 +2,12 @@
 <html>
 
 <head>
-    <title>PnL for {{ trader_id }} on {{ delivery_day }}</title>
+    <title>PnL for {{ trader_id }} on {{  delivery_day.strftime("%d %B %Y")  }}</title>
 </head>
 
 <body>
-    <h1>PnL for {{ trader_id }} on {{ delivery_day }}</h1>
+    <h1>PnL for {{ trader_id }} on {{ delivery_day.strftime("%d %B %Y") }}</h1>
+    {% if pnl_records %}
     <table>
         <thead>
             <tr>
@@ -18,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for pnl in pnl_records %}
+            {%+ for pnl in pnl_records -%}
             <tr>
                 <td>{{ pnl["delivery_hour"] }}</td>
                 <td>{{ pnl["num_of_trades"] }}</td>
@@ -26,7 +27,7 @@
                 <td>{{ pnl["total_sell"] }}</td>
                 <td>{{ pnl["pnl"] }}</td>
             </tr>
-            {% endfor %}
+            {% endfor -%}
             <tr>
                 <td>Total</td>
                 <td>{{ pnl_records | map(attribute="num_of_trades") | sum }}</td>
@@ -36,6 +37,9 @@
             </tr>
         </tbody>
     </table>
+    {% else %}
+    <p>There're no trades so far!</p>
+    {% endif %}
 </body>
 
 </html>

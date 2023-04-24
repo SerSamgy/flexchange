@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import date, datetime
 
 from fastapi import Depends
 from sqlalchemy import case, func, select
@@ -17,7 +17,7 @@ class PnLReport:
     async def generate_for_day(self, *, trader_id: str, delivery_day: date | None = None):
         """Fetches all fields for report filtered by `trader_id` and `delivery_date`."""
         if not delivery_day:
-            delivery_day = datetime.now(timezone.utc).date()
+            delivery_day = datetime.now().date()
 
         query = (
             select(
