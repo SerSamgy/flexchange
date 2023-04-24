@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PnL for {{ trader_id }} on {{ delivery_day }}</title>
+</head>
+
+<body>
+    <h1>PnL for {{ trader_id }} on {{ delivery_day }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Hour</th>
+                <th>Number of Trades</th>
+                <th>Total Buy [MW]</th>
+                <th>Total Sell [MW]</th>
+                <th>PnL [Eur]</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pnl in pnl_records %}
+            <tr>
+                <td>{{ pnl["delivery_hour"] }}</td>
+                <td>{{ pnl["num_of_trades"] }}</td>
+                <td>{{ pnl["total_buy"] }}</td>
+                <td>{{ pnl["total_sell"] }}</td>
+                <td>{{ pnl["pnl"] }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Total</td>
+                <td>{{ pnl_records | map(attribute="num_of_trades") | sum }}</td>
+                <td>{{ pnl_records | map(attribute="total_buy") | sum }}</td>
+                <td>{{ pnl_records | map(attribute="total_sell") | sum }}</td>
+                <td>{{ pnl_records | map(attribute="pnl") | sum }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
