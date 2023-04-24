@@ -45,3 +45,14 @@ async def get_current_superuser(
             detail="The user doesn't have enough privileges",
         )
     return current_user
+
+
+async def get_current_user_trader(
+    current_user: UserModel = Depends(get_current_user),
+) -> UserModel:
+    if current_user.is_superuser or current_user.trader is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="The user doesn't have enough privileges",
+        )
+    return current_user

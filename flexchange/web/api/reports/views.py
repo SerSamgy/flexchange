@@ -3,21 +3,22 @@ from datetime import date, datetime, timezone
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 
+from flexchange.db.models import User as UserModel
 from flexchange.db.reports import PnLReport
-from flexchange.web.api.dependencies import get_current_user
+from flexchange.web.api.dependencies import get_current_user_trader
 from flexchange.web.templates import templates
 
-router = APIRouter(dependencies=[Depends(get_current_user)])
+router = APIRouter()
 
 
 @router.get("/pnl", response_class=HTMLResponse)
 async def get_pnl_report(
     request: Request,
+    current_user: UserModel = Depends(get_current_user_trader),
     pnl_report: PnLReport = Depends(),
 ):
     """Generate PnL report for current user trader for today."""
-    # FIXME: get trader_id from current user info
-    trader_id = "eva_02"
+    trader_id = current_user.trader.id
     delivery_day = datetime.now(timezone.utc).date()
     pnl_records = await pnl_report.generate_for_day(trader_id=trader_id, delivery_day=date(2023, 4, 23))
     # TODO: add render of empty table if there're no rows

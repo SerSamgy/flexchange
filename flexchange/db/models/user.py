@@ -1,4 +1,4 @@
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import Boolean, Integer, String
 
 from flexchange.db.base import Base
@@ -14,3 +14,5 @@ class User(Base):
     email = mapped_column(String(length=255), index=True, nullable=False)
     hashed_password = mapped_column(String, nullable=False)
     is_superuser = mapped_column(Boolean, default=False, nullable=False)
+
+    trader: Mapped["Trader"] = relationship(back_populates="user", lazy="selectin")

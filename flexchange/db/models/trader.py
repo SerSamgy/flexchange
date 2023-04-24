@@ -1,4 +1,4 @@
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import String
 
@@ -15,3 +15,5 @@ class Trader(Base):
     # if trader is bot we could add another foreign key to Bot table
     # and add constraint that checks if either one of foreign keys
     # references to respective table, but not both
+
+    user: Mapped["User"] = relationship(back_populates="trader")
