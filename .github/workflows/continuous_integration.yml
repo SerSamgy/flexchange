@@ -27,7 +27,32 @@ jobs:
         docker-compose -f docker-compose.yml up -d
     - name: Run unit tests
       run: |
-        docker exec flexchange_api_1 /bin/bash -c "pytest flexchange --cov=flexchange"
+        docker exec flexchange_api_1 /bin/bash -c "pytest flexchange \
+                                                  --cache-clear \
+                                                  --no-cov-on-fail \
+                                                  --cov=flexchange
+                                                  --cov-report html:reports/cov-html/flexchange-unit \
+                                                  --cov-report xml:reports/cov/flexchange-unit.xml \
+                                                  --junitxml=reports/junit/flexchange-unit.xml"
+    - name: Collect results of Automated Tests
+        if: always()
+        run: |
+          mkdir reports
+          # don't fail if a .xml file is not found, just continue with next command
+          docker cp flexchange_api_1:/app/src/reports/.  ./reports/ || true
+    - name: Upload results of Automated Tests
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: Test Results
+        path: reports/
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2.2.0
+      if: always()
+      with:
+        junit_files: reports/junit/*.xml
+        check_run_annotations: all tests, skipped tests
+        check_name: "Unit Test Results"
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
