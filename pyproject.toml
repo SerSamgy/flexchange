@@ -90,6 +90,7 @@ sentry_enabled = "None"
 otlp_enabled = "None"
 
 [tool.coverage.run]
+relative_files = true
 omit = [
     "*test_*",
     "*__init__*",
