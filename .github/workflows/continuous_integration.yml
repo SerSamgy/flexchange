@@ -30,7 +30,7 @@ jobs:
         docker exec flexchange_api_1 /bin/bash -c "pytest flexchange \
                                                   --cache-clear \
                                                   --no-cov-on-fail \
-                                                  --cov=flexchange
+                                                  --cov=flexchange \
                                                   --cov-report html:reports/cov-html/flexchange-unit \
                                                   --cov-report xml:reports/cov/flexchange-unit.xml \
                                                   --junitxml=reports/junit/flexchange-unit.xml"
