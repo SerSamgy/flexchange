@@ -11,7 +11,6 @@ aiosqlite = "^0.18.0"
 fastapi = "^0.89.1"
 httptools = "^0.5.0"
 jinja2 = "^3.1.2"
-parsel = "^1.8.1"
 passlib = {version = "^1.7.4", extras = ["bcrypt"]}
 pydantic = {version = "^1.10.4", extras = ["dotenv"]}
 python-jose = {version = "^3.3.0", extras = ["cryptography"]}
@@ -25,6 +24,7 @@ yarl = "^1.8.2"
 anyio = "^3.6.2"
 black = "^22.12.0"
 httpx = "^0.23.3"
+parsel = "^1.8.1"
 pre-commit = "^3.0.1"
 pytest = "^7.2.1"
 pytest-cov = "^4.0.0"
