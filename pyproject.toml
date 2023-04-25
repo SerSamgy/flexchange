@@ -47,6 +47,11 @@ exclude = [
     "**/__pycache__",
 ]
 reportMissingImports = true
+reportUnusedImports = "warning"
+reportUnusedClass = "warning"
+reportUnusedFunction = "warning"
+reportUnusedVariable = "warning"
+useLibraryCodeForTypes = true
 pythonVersion = "3.11"
 pythonPlatform = "Linux"
 
