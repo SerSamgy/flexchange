@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import Boolean, Integer, String
 
 from flexchange.db.base import Base
+
+if TYPE_CHECKING:
+    from flexchange.db.models import Trader
 
 
 class User(Base):
@@ -15,7 +20,7 @@ class User(Base):
     hashed_password = mapped_column(String, nullable=False)
     is_superuser = mapped_column(Boolean, default=False, nullable=False)
 
-    trader: Mapped["Trader"] = relationship(  # pyright: ignore [reportUndefinedVariable]
+    trader: Mapped["Trader"] = relationship(
         back_populates="user",
         lazy="selectin",
     )

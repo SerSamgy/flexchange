@@ -1,8 +1,13 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import String
 
 from flexchange.db.base import Base
+
+if TYPE_CHECKING:
+    from flexchange.db.models import User
 
 
 class Trader(Base):
@@ -16,4 +21,4 @@ class Trader(Base):
     # and add constraint that checks if either one of foreign keys
     # references to respective table, but not both
 
-    user: Mapped["User"] = relationship(back_populates="trader")  # pyright: ignore [reportUndefinedVariable]
+    user: Mapped["User"] = relationship(back_populates="trader")
