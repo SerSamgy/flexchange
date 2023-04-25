@@ -94,6 +94,7 @@ relative_files = true
 omit = [
     "*test_*",
     "*__init__*",
+    "*__main__*",
     "*conftest*"
 ]
 
