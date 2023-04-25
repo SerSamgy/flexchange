@@ -46,13 +46,6 @@ jobs:
       with:
         name: Test Results
         path: reports/
-    - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2.2.0
-      if: always()
-      with:
-        junit_files: reports/junit/*.xml
-        check_run_annotations: all tests, skipped tests
-        check_name: "Unit Test Results"
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
