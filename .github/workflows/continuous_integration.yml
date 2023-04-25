@@ -35,11 +35,11 @@ jobs:
                                                   --cov-report xml:reports/cov/flexchange-unit.xml \
                                                   --junitxml=reports/junit/flexchange-unit.xml"
     - name: Collect results of Automated Tests
-        if: always()
-        run: |
-          mkdir reports
-          # don't fail if a .xml file is not found, just continue with next command
-          docker cp flexchange_api_1:/app/src/reports/.  ./reports/ || true
+      if: always()
+      run: |
+        mkdir reports
+        # don't fail if a .xml file is not found, just continue with next command
+        docker cp flexchange_api_1:/app/src/reports/.  ./reports/ || true
     - name: Upload results of Automated Tests
       if: always()
       uses: actions/upload-artifact@v2
