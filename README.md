@@ -1,5 +1,11 @@
 # flexchange
 
+From test assignment I implemented tasks 1 and 3 + bonus task. I changed a bit implementation
+for task 3 and within a dashboard I show PnL for an authorized user-trader only based on his/her
+trader_id stored in access token made on authorization, preventing access to PnL reports of
+other traders. In task 1 I gave permissions to access `/trades` endpoints for superusers only,
+just to show implementation of authorization for different users.
+
 This project was generated using [fastapi_template](https://github.com/s3rius/FastAPI-template).
 
 ## Poetry
@@ -24,14 +30,14 @@ You can read more about poetry [here](https://python-poetry.org/)
 You can start the project with docker using this command:
 
 ```bash
-docker-compose -f docker-compose.yml . up --build
+docker-compose -f docker-compose.yml up --build
 ```
 
 If you want to develop in docker with autoreload add `-f docker-compose.dev.yml` to your docker command.
 Like this:
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml . up
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
 This command exposes the web application on port 8000, mounts current directory and enables autoreload.
