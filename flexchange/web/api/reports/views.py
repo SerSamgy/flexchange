@@ -17,7 +17,7 @@ async def get_pnl_report(
     current_user: UserModel = Depends(get_current_user_trader),
     pnl_report: PnLReport = Depends(),
 ):
-    """Generate PnL report for current user trader for today."""
+    """Generate PnL report for current user trader for today. Only traders can access this endpoint."""
     trader_id = current_user.trader.id
     delivery_day = datetime.now().date()
     pnl_records = await pnl_report.generate_for_day(trader_id=trader_id, delivery_day=delivery_day)

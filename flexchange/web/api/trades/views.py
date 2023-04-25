@@ -17,7 +17,7 @@ async def get_trades(
     delivery_day: date | None = None,
     trade_dao: TradeDAO = Depends(),
 ) -> list[TradeModel]:
-    """Retrieve trade objects from the database."""
+    """Retrieve trade objects from the database. Only superusers can access this endpoint."""
     return await trade_dao.filter(trader_id=trader_id, delivery_day=delivery_day)
 
 
@@ -26,5 +26,5 @@ async def create_trade(
     new_trade_object: TradeModelDTO,
     trade_dao: TradeDAO = Depends(),
 ) -> None:
-    """Creates trade model in the database."""
+    """Creates trade model in the database. Only superusers can access this endpoint."""
     await trade_dao.create(**new_trade_object.dict())
