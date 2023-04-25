@@ -95,6 +95,7 @@ omit = [
     "*__init__*",
     "*conftest*"
 ]
+
 [tool.coverage.report]
 skip_covered = true
 
