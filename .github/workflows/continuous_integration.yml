@@ -24,4 +24,4 @@ jobs:
         docker-compose -f docker-compose.yml up -d
     - name: Run unit tests
       run: |
-        docker exec flexchange-api-1 /bin/bash -c "pytest flexchange --cov=flexchange"
+        docker exec flexchange_api_1 /bin/bash -c "pytest flexchange --cov=flexchange"
