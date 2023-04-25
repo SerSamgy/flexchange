@@ -16,4 +16,4 @@ class Trader(Base):
     # and add constraint that checks if either one of foreign keys
     # references to respective table, but not both
 
-    user: Mapped["User"] = relationship(back_populates="trader")
+    user: Mapped["User"] = relationship(back_populates="trader")  # pyright: ignore [reportUndefinedVariable]

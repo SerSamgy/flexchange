@@ -15,4 +15,7 @@ class User(Base):
     hashed_password = mapped_column(String, nullable=False)
     is_superuser = mapped_column(Boolean, default=False, nullable=False)
 
-    trader: Mapped["Trader"] = relationship(back_populates="user", lazy="selectin")
+    trader: Mapped["Trader"] = relationship(  # pyright: ignore [reportUndefinedVariable]
+        back_populates="user",
+        lazy="selectin",
+    )

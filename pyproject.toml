@@ -49,6 +49,9 @@ exclude = [
     "**/test_*.py",
     "**/__pycache__",
 ]
+reportMissingImports = true
+pythonVersion = "3.11"
+pythonPlatform = "Linux"
 
 [tool.pytest.ini_options]
 filterwarnings = [
