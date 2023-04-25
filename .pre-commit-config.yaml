@@ -23,6 +23,11 @@ repos:
     - --preserve-quotes
     - --indent=2
 
+- repo: https://github.com/RobertCraigie/pyright-python
+  rev: v1.1.304
+  hooks:
+  - id: pyright
+
 - repo: local
   hooks:
   - id: black
@@ -51,12 +56,3 @@ repos:
   #   pass_filenames: false
   #   types: [python]
   #   args: [--count, .]
-
-  # - id: mypy
-  #   name: Validate types with MyPy
-  #   entry: poetry run mypy
-  #   language: system
-  #   types: [python]
-  #   pass_filenames: false
-  #   args:
-  #   - "flexchange"

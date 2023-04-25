@@ -6,7 +6,7 @@ from flexchange.settings import settings
 def set_sqlite_pragma(dbapi_connection, connection_record):  # type: ignore[no-untyped-def]
     cursor = dbapi_connection.cursor()
     cursor.execute("PRAGMA foreign_keys=ON")
-    cursor.close()
+    cursor.close()  # pragma: no cover
 
 
 async def create_database() -> None:
